@@ -1,9 +1,9 @@
 //APP INITIALISES
-const appState={
-  playlist = [],
-  currentQuery = null,
-  nextQuery = null,
-  prevQuery = null,
+const appState = {
+  playlist: [],
+  currentQuery: null,
+  nextQuery: null,
+  prevQuery: null,
 }
 // AJAX
 function fetchPlaylists(searchTerm, callback) {
@@ -11,7 +11,7 @@ function fetchPlaylists(searchTerm, callback) {
 
   const params = {
     q: searchTerm,
-    type: playlist,
+    type: 'playlist',
     limit: 5,
   };
 
@@ -20,6 +20,7 @@ function fetchPlaylists(searchTerm, callback) {
     url: BASE_API,
     data: params,
     success: response => {
+      console.log(response);
       let obj = response['playlists'];
       let playData = function(obj) {
         const items = obj['items'].map(item => {
@@ -37,9 +38,17 @@ function fetchPlaylists(searchTerm, callback) {
           items, nextQ, previousQ
         };
       };
+      callback(playData(obj));
     }
   })
 }
+
+function loadData(data) {
+  appState.playlist = data.items;
+  appState.nextQuery = data.nextQ;
+  appState.prevQuery = data.previousQ;
+};
+
 
 //STATE MODS
 function nameHere(state){
@@ -57,7 +66,7 @@ function eventHandlers(){
     });
 }
 //RUN THIS ENTIRE CUTE THING
-$(function(){
-    eventHandlers();
-    render(appState, '');
-});
+// $(function(){
+//     eventHandlers();
+//     render(appState, '');
+// });
