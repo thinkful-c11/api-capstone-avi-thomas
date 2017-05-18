@@ -7,7 +7,7 @@ const appState={
 }
 // AJAX
 function fetchPlaylists(searchTerm, callback) {
-  const BASE_API = https://api.spotify.com/v1/search;
+  const BASE_API = 'https://api.spotify.com/v1/search';
 
   const params = {
     q: searchTerm,
@@ -20,9 +20,23 @@ function fetchPlaylists(searchTerm, callback) {
     url: BASE_API,
     data: params,
     success: response => {
-      const playlists = response.items.map(item => {
-        
-      })
+      let obj = response['playlists'];
+      let playData = function(obj) {
+        const items = obj['items'].map(item => {
+          const {spotify} = item['external_urls'];
+          const {height, url, width} = item['images'][0];
+          const name = item['name'];
+          const owner = item['owner'];
+          return {
+            spotify, height, url, width, name
+          };
+        });
+        const nextQ = obj['next'];
+        const previousQ = obj['previous'];
+        return {
+          items, nextQ, previousQ
+        };
+      };
     }
   })
 }
