@@ -6,6 +6,10 @@ Stuck in traffic? Have a commute and want to get music with a similar mood? We'l
 
 We will be using emojis (e.g happy, sad, excited, chill) to select a theme of playlists of songs.
 
+## User Stories
+
+* As a user, I must be able to select a mood emoji to display a list of public playlists fitting that emoji from Spotify. Once I select a playlist I want it will open up Spotify Web.
+
 ## Wireframe Details
 
 1. Header
