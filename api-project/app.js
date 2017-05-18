@@ -57,8 +57,12 @@ function loadData(data) {
   appState.prevQuery = data.previousQ;
 };
 //STATE MODS
-function clickEmoji(state){
-    state.currentQuery
+function clickEmoji(state, emoji){
+  for (let prop in state.emojis) {
+    if (prop === emoji) {
+      state.currentQuery = state.emojis[prop];
+    }
+  }
 }
 //RENDER
 function render(state){
@@ -67,7 +71,7 @@ function render(state){
   if (state.playlist){
     state.playlist.forEach(function(item){
       resultPlaylists += `<img src="${item.url}">`;
-      console.log(item.url);
+      //console.log(item.url);
     });
   }
   else{
@@ -78,9 +82,9 @@ function render(state){
 //EVENT HANDLERS
 function eventHandlers(){
     $('.emoji').on('click', function(event){
-        console.log("This is working");
-        console.log(event.currentTarget);
-        render(appState);
+      let emojiType = $(event.currentTarget).attr('emoji-type');
+      clickEmoji(appState, emojiType);
+      render(appState);
     });
 }
 //RUN THIS ENTIRE CUTE THING
