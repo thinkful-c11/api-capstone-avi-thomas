@@ -56,3 +56,9 @@ h2{
     background-color: #545757;
     height: .5em;
 }
+.show-playlists img{
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}

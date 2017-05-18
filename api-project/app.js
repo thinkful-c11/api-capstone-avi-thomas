@@ -1,6 +1,15 @@
 //APP INITIALISES
 const appState = {
+  emojis:
+    {
+      happy: 1,
+      party: 2,
+      fire: 3,
+      relax: 4,
+      sad: 5
+    },
   playlist: [],
+  selectEmoji: false,
   currentQuery: null,
   nextQuery: null,
   prevQuery: null,
@@ -42,31 +51,40 @@ function fetchPlaylists(searchTerm, callback) {
     }
   })
 }
-
 function loadData(data) {
   appState.playlist = data.items;
   appState.nextQuery = data.nextQ;
   appState.prevQuery = data.previousQ;
 };
-
-
 //STATE MODS
-function nameHere(state){
-    //state.addHere=
+function clickEmoji(state){
+    state.currentQuery
 }
 //RENDER
 function render(state){
-
+  console.log(state);
+  let resultPlaylists='';
+  if (state.playlist){
+    state.playlist.forEach(function(item){
+      resultPlaylists += `<img src="${item.url}">`;
+      console.log(item.url);
+    });
+  }
+  else{
+    resultPlaylists += '<p>No results</p>';
+  }
+  $('.show-playlists').html(resultPlaylists);
 }
 //EVENT HANDLERS
 function eventHandlers(){
-    $('.HTMLCLASSSTUFF').click(function(event){
-        // CHANGE STATE WITH STATE MOD FUNCTION
-        // INVOKE RENDER FUNCTION
+    $('.emoji').on('click', function(event){
+        console.log("This is working");
+        console.log(event.currentTarget);
+        render(appState);
     });
 }
 //RUN THIS ENTIRE CUTE THING
-// $(function(){
-//     eventHandlers();
-//     render(appState, '');
-// });
+$(function(){
+    eventHandlers();
+    render(appState, '');
+});
