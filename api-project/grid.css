@@ -3,9 +3,9 @@
 }
 .row{
     max-width: 1000px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 0;
     margin: 0 auto;
+    border: 0;
 }
 /* Clearfix */
 .row::before, .row::after{
@@ -15,22 +15,19 @@
 .row::after{
     clear: both;
 }
-.col-6, .col-12{
+.col-12{
     float: left;
     padding-left: 1.04166666%;
     padding-right: 1.04166666%;
 }
 /* Less than 640px */
-.col-6, .col-12{
+.col-12{
     width: 100%;
 }
 /* 640px< 1000px */
 @media only screen and (min-width: 640px){
     .col-12{
         width: 100%;
-    }
-    .col-6{
-        width: 50%;
     }
 }
 @media only screen and (min-width: 1000px){
