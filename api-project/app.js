@@ -1,42 +1,3 @@
-// APP INITIALISES
-// const testData = [
-//   {
-//     height: null,
-//     name: "It's Lit 🔥",
-//     spotify: "http://open.spotify.com/user/marquez.anthony96/playlist/4x5uuUCh7VxyiuCV1gGejF",
-//     url: "https://u.scdn.co/images/pl/default/733dd40bc3bbe082264eff3b8d2ba6350e9a872d",
-//     width: null,
-//   },
-//   {
-//     height: 300,
-//     name: "It's lit",
-//     spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
-//     url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
-//     width: 300,
-//   },
-//   {
-//     height: 300,
-//     name: "It's lit",
-//     spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
-//     url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
-//     width: 300,
-//   },
-//   {
-//     height: 300,
-//     name: "It's lit",
-//     spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
-//     url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
-//     width: 300,
-//   },
-//   {
-//     height: 300,
-//     name: "It's lit",
-//     spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
-//     url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
-//     width: 300,
-//   },
-// ]
-
 const appState = {
   emojis:
     {
@@ -54,6 +15,7 @@ const appState = {
 
 // AJAX
 function fetchPlaylists(searchTerm, callback, pageURL) {
+  console.log('fetch??');
   const BASE_API = 'https://api.spotify.com/v1/search';
   const PREV_NEXT = pageURL; // pull in full query URL for AJAX call
 
@@ -63,46 +25,45 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
     limit: 5,
   };
 
-  // this works by itself
-  // $.ajax({
-  //   method: 'GET',
-  //   url: BASE_API,
-  //   data: params,
-  //   success: response => {
-  //     loadData(editData(response));
-  //   },
-  // });
-
   //load playlists on initial click
-  let initLoad = $.ajax({
-    method: 'GET',
-    url: BASE_API,
-    data: params,
-    success: response => {
-      callback(editData(response));
-    },
-  });
+  function initLoad() {
+    $.ajax({
+      method: 'GET',
+      url: BASE_API,
+      data: params,
+      success: response => {
+        console.log(response);
+        callback(editData(response));
+      },
+    });
+  }
   //load playlists on prev or next button click
-  let btnLoad = $.ajax({
+  function btnLoad() {
+    $.ajax({
     method: 'GET',
     url: PREV_NEXT,
-    //processData: false, //deactivate need to process params for query string
     success: response => {
+      console.log('next or prev clicked??');
       callback(editData(response));
     },
   });
+}
   //Conditional for which AJAX call to make and render.;
-  (searchTerm) ? initLoad : btnLoad;
+  (searchTerm) ? initLoad() : btnLoad();
+
 };
 
+//STATE MOD FUNCTIONS
 
-//CALLBACK FUNCTIONS
+//Edit the incoming spotify data to our liking.
 function editData(response) {
 let obj = response['playlists'];
+console.log(obj);
+//console.log(obj.items);
 const items = obj['items'].map(item => {
   const {spotify} = item['external_urls'];
   const {height, url, width} = item['images'][0];
-  const name = item['name'].substring(0, 18);
+  const name = item['name'].substring(0, 18); //Only keep 18 char for stlying
   const ownerId = item['owner']['id'];
   const id = item['id'];
   return {
@@ -123,7 +84,6 @@ function loadData(data) {
   render(appState); //Cheating way to hook a render into each data reload.
 };
 
-//STATE MODS
 function clickEmoji(state, emoji){
   for (let prop in state.emojis) {
     if (prop === emoji) {
