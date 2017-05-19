@@ -103,9 +103,10 @@ const items = obj['items'].map(item => {
   const {spotify} = item['external_urls'];
   const {height, url, width} = item['images'][0];
   const name = item['name'].substring(0, 18);
-  const owner = item['owner'];
+  const ownerId = item['owner']['id'];
+  const id = item['id'];
   return {
-    spotify, url, name
+    spotify, url, name, id, ownerId
   };
 });
 const nextQ = obj['next'];
@@ -136,7 +137,7 @@ function render(state){
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
-      resultPlaylists += `<div class="each-playlist"><a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3></div>`;
+      resultPlaylists += `<div class="each-playlist"><a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3></div><iframe src="https://open.spotify.com/embed?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A${item.id}&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`;
     });
   }
   else{
