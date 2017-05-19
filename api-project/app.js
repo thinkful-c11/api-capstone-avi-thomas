@@ -82,7 +82,8 @@ function render(state){
 //EVENT HANDLERS
 function eventHandlers(){
     $('.emoji').on('click', function(event){
-      let emojiType = $(event.currentTarget).attr('emoji-type');
+      let emojiType = $(event.currentTarget).data('emojitype');
+      console.log(emojiType);
       clickEmoji(appState, emojiType);
       render(appState);
     });

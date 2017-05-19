@@ -18,11 +18,14 @@ body, footer{
     text-align: center;
     width: 2em;
     height: 2em;
-    border-radius: 1em;
+    border-radius: 100%;
     border: #3b7898;
     background-color: #6C9DC9;
     font-size: 5em;
     margin: .15em .15em .3em .15em;
+    text-decoration: none;
+    line-height: 2.5em;
+    padding: 0.25em 0.5em;
 }
 .get-playlist{
     border: none;
