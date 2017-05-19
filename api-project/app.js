@@ -99,7 +99,6 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
 //CALLBACK FUNCTIONS
 function editData(response) {
 let obj = response['playlists'];
-console.log(obj);
 const items = obj['items'].map(item => {
   const {spotify} = item['external_urls'];
   const {height, url, width} = item['images'][0];
@@ -137,7 +136,7 @@ function render(state){
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
-      resultPlaylists += `<a href="${item.spotify}"><img src="${item.url}"></a>`;
+      resultPlaylists += `<a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3>`;
     });
   }
   else{
@@ -154,7 +153,7 @@ function eventHandlers(){
     $('.emoji').on('click', function(event){
       let emojiType = $(event.currentTarget).data('emojitype');
       clickEmoji(appState, emojiType);
-      fetchPlaylists(appState.currentQuery, loadData);
+      fetchPlaylists(appState.currentQuery, loadData, null);
       return false;
     });
     $('.js-nav-buttons').on('click', '.js-prev', function(event) {
