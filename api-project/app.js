@@ -137,7 +137,10 @@ function render(state){
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
-      resultPlaylists += `<div class="each-playlist"><a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3></div><iframe src="https://open.spotify.com/embed?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A${item.id}&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`;
+      resultPlaylists += `<iframe src="https://open.spotify.com/embed?uri=spotify:user:${item.ownerId}:playlist:${item.id}&theme=white&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`;
+      // This is the original code going in where the iframe is now at.
+      // We are saving it in the event that playlists do not work.
+      // <div class="each-playlist"><a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3></div>
     });
   }
   else{
