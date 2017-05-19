@@ -45,7 +45,8 @@ body, footer{
     border-radius: .2em;
     text-align: center;
     padding: .5em .7em;
-    margin: 2em;
+    margin-top: 1em;
+    margin-bottom: 2em;
 }
 header h1{
     text-align: center;
@@ -68,10 +69,27 @@ h2{
 .darkgrey{
     background-color: #545757;
     height: .5em;
+    margin-top: 2em;
+}
+.white{
+    background-color: none;
+    height: .5em;
+    margin-top: 3em;
+    margin-bottom: 3em;
 }
 .show-playlists img{
-    width: 50%;
-    height: 50%;
+    width: 12em;
+    height: 12em;
+    padding: .5em;
     margin-left: auto;
     margin-right: auto;
+}
+.js-nav-buttons{
+    margin-bottom: 1em;
+}
+.js-prev{
+    text-align: left;
+}
+.js-next{
+    text-align: right;
 }
