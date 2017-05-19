@@ -155,12 +155,15 @@ function eventHandlers(){
       let emojiType = $(event.currentTarget).data('emojitype');
       clickEmoji(appState, emojiType);
       fetchPlaylists(appState.currentQuery, loadData);
+      return false;
     });
     $('.js-nav-buttons').on('click', '.js-prev', function(event) {
       fetchPlaylists(null, loadData, appState.prevQuery);
+      return false;
     })
     $('.js-nav-buttons').on('click', '.js-next', function(event) {
       fetchPlaylists(null, loadData, appState.nextQuery);
+      return false;
     })
 };
 //RUN THIS ENTIRE CUTE THING
