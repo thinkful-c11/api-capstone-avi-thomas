@@ -1,4 +1,4 @@
-//APP INITIALISES
+// APP INITIALISES
 const testData = [
   {
     height: null,
@@ -116,8 +116,8 @@ function render(state){
     resultPlaylists += '<p>No results</p>';
   };
 
-  (state.nextQuery) ? $('.js-next').show() : $('.js-next').hide();
-  (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
+  // (state.nextQuery) ? $('.js-next').show() : $('.js-next').hide();
+  // (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
   $('.show-playlists').html(resultPlaylists);
 };
 
@@ -128,6 +128,12 @@ function eventHandlers(){
       clickEmoji(appState, emojiType);
       fetchPlaylists(appState.currentQuery, loadData);
     });
+    $('.js-prev').click(function(event) {
+
+    })
+    $('.js-next').click(function(event) {
+
+    })
 };
 //RUN THIS ENTIRE CUTE THING
 $(function(){
