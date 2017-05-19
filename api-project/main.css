@@ -70,13 +70,23 @@ h2{
     height: .5em;
     margin-top: 2em;
 }
+.each-playlist{
+    display: inline-block;
+    width: 12em;
+}
 .show-playlists img{
     width: 12em;
     height: 12em;
     padding: .5em;
     margin-top: 1.5em;
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
+}
+.show-playlists h3{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin-top: -.5em;
 }
 .js-nav-buttons{
     margin-bottom: 1em;

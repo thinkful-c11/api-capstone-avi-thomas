@@ -136,7 +136,7 @@ function render(state){
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
-      resultPlaylists += `<a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3>`;
+      resultPlaylists += `<div class="each-playlist"><a href="${item.spotify}"><img src="${item.url}"></a><h3>${item.name}</h3></div>`;
     });
   }
   else{
