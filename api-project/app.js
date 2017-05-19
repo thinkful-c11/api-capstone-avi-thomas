@@ -102,7 +102,7 @@ let obj = response['playlists'];
 const items = obj['items'].map(item => {
   const {spotify} = item['external_urls'];
   const {height, url, width} = item['images'][0];
-  const name = item['name'];
+  const name = item['name'].substring(0, 18);
   const owner = item['owner'];
   return {
     spotify, url, name
