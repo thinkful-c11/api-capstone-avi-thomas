@@ -1,4 +1,42 @@
 //APP INITIALISES
+const testData = [
+  {
+    height: null,
+    name: "It's Lit 🔥",
+    spotify: "http://open.spotify.com/user/marquez.anthony96/playlist/4x5uuUCh7VxyiuCV1gGejF",
+    url: "https://u.scdn.co/images/pl/default/733dd40bc3bbe082264eff3b8d2ba6350e9a872d",
+    width: null,
+  },
+  {
+    height: 300,
+    name: "It's lit",
+    spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
+    url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
+    width: 300,
+  },
+  {
+    height: 300,
+    name: "It's lit",
+    spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
+    url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
+    width: 300,
+  },
+  {
+    height: 300,
+    name: "It's lit",
+    spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
+    url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
+    width: 300,
+  },
+  {
+    height: 300,
+    name: "It's lit",
+    spotify: "http://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWmG4xgoLORa",
+    url: "https://i.scdn.co/image/b6e4f3def28f6ed06bbb10d41e9a389dd04f6ee7",
+    width: 300,
+  },
+]
+
 const appState = {
   emojis:
     {
@@ -8,7 +46,7 @@ const appState = {
       relax: 'chill',
       sad: 'sad'
     },
-  playlist: [],
+  playlist: testData,
   selectEmoji: false,
   currentQuery: null,
   nextQuery: null,
@@ -71,13 +109,15 @@ function render(state){
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
-      resultPlaylists += `<img src="${item.url}">`;
-      //console.log(item.url);
+      resultPlaylists += `<a href="${item.spotify}"><img src="${item.url}"></a>`;
     });
   }
   else{
     resultPlaylists += '<p>No results</p>';
   };
+
+  (state.nextQuery) ? $('.js-next').show() : $('.js-next').hide();
+  (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
   $('.show-playlists').html(resultPlaylists);
 };
 

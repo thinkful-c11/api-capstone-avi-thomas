@@ -37,6 +37,9 @@ body, footer{
     padding: .5em .7em;
     margin: 1.2em;
 }
+.nav-buttons {
+  background-color: #6C9DC9;
+}
 header h1{
     text-align: center;
     font-size: 3em;
