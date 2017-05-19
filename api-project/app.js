@@ -13,7 +13,7 @@ const appState = {
   prevQuery: null,
 }
 
-// AJAX
+// IN WHICH WE MAKE AJAX REQUESTS
 function fetchPlaylists(searchTerm, callback, pageURL) {
   console.log('fetch??');
   const BASE_API = 'https://api.spotify.com/v1/search';
@@ -25,7 +25,7 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
     limit: 5,
   };
 
-  //load playlists on initial click
+  //in which we load playlists on initial click
   function initLoad() {
     $.ajax({
       method: 'GET',
@@ -37,7 +37,7 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
       },
     });
   }
-  //load playlists on prev or next button click
+  //in which we load playlists on prev or next button click
   function btnLoad() {
     $.ajax({
     method: 'GET',
@@ -53,13 +53,12 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
 
 };
 
-//STATE MOD FUNCTIONS
+//IN WHICH WE MODIFY THE STATE
 
-//Edit the incoming spotify data to our liking.
+//in which we edit the data to our liking
 function editData(response) {
 let obj = response['playlists'];
 console.log(obj);
-//console.log(obj.items);
 const items = obj['items'].map(item => {
   const {spotify} = item['external_urls'];
   const {height, url, width} = item['images'][0];
@@ -77,6 +76,7 @@ return {
   };
 };
 
+//in which we load the data into the state object
 function loadData(data) {
   appState.playlist = data.items;
   appState.nextQuery = data.nextQ;
@@ -84,6 +84,7 @@ function loadData(data) {
   render(appState); //Cheating way to hook a render into each data reload.
 };
 
+//in which we set the current query in the state
 function clickEmoji(state, emoji){
   for (let prop in state.emojis) {
     if (prop === emoji) {
@@ -92,7 +93,7 @@ function clickEmoji(state, emoji){
   };
 };
 
-//RENDER
+//IN WHICH WE RENDER
 function render(state){
   let resultPlaylists='';
   if (state.playlist){
@@ -112,7 +113,7 @@ function render(state){
   $('.show-playlists').html(resultPlaylists);
 };
 
-//EVENT HANDLERS
+//IN WHICH WE HANDLE THE EVENTS
 function eventHandlers(){
     $('.emoji').on('click', function(event){
       let emojiType = $(event.currentTarget).data('emojitype');
@@ -129,7 +130,7 @@ function eventHandlers(){
       return false;
     })
 };
-//RUN THIS ENTIRE CUTE THING
+//IN WHICH WE RUN THIS ENTIRE CUTE THING
 $(function(){
     eventHandlers();
     render(appState, '');
