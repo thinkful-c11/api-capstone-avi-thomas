@@ -2,11 +2,11 @@
 const appState = {
   emojis:
     {
-      happy: 1,
-      party: 2,
-      fire: 3,
-      relax: 4,
-      sad: 5
+      happy: 'upbeat music',
+      party: 'party music',
+      fire: 'it\'s lit',
+      relax: 'chill',
+      sad: 'sad'
     },
   playlist: [],
   selectEmoji: false,
@@ -29,7 +29,6 @@ function fetchPlaylists(searchTerm, callback) {
     url: BASE_API,
     data: params,
     success: response => {
-      console.log(response);
       let obj = response['playlists'];
       let playData = function(obj) {
         const items = obj['items'].map(item => {
@@ -49,24 +48,26 @@ function fetchPlaylists(searchTerm, callback) {
       };
       callback(playData(obj));
     }
-  })
-}
+  });
+};
 function loadData(data) {
   appState.playlist = data.items;
   appState.nextQuery = data.nextQ;
   appState.prevQuery = data.previousQ;
+  render(appState);
 };
+
 //STATE MODS
 function clickEmoji(state, emoji){
   for (let prop in state.emojis) {
     if (prop === emoji) {
       state.currentQuery = state.emojis[prop];
-    }
-  }
-}
+    };
+  };
+};
+
 //RENDER
 function render(state){
-  console.log(state);
   let resultPlaylists='';
   if (state.playlist){
     state.playlist.forEach(function(item){
@@ -76,18 +77,18 @@ function render(state){
   }
   else{
     resultPlaylists += '<p>No results</p>';
-  }
+  };
   $('.show-playlists').html(resultPlaylists);
-}
+};
+
 //EVENT HANDLERS
 function eventHandlers(){
     $('.emoji').on('click', function(event){
       let emojiType = $(event.currentTarget).data('emojitype');
-      console.log(emojiType);
       clickEmoji(appState, emojiType);
-      render(appState);
+      fetchPlaylists(appState.currentQuery, loadData);
     });
-}
+};
 //RUN THIS ENTIRE CUTE THING
 $(function(){
     eventHandlers();
