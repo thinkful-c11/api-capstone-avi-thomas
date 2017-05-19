@@ -38,7 +38,14 @@ body, footer{
     margin: 1.2em;
 }
 .nav-buttons {
-  background-color: #6C9DC9;
+    border: none;
+    background-color: #A7B2BA;
+    font-size: 1.5em;
+    color: #ffffff;
+    border-radius: .2em;
+    text-align: center;
+    padding: .5em .7em;
+    margin: 2em;
 }
 header h1{
     text-align: center;
