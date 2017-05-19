@@ -47,14 +47,15 @@ const appState = {
       sad: 'sad'
     },
   playlist: testData,
-  selectEmoji: false,
+  //selectEmoji: false,
   currentQuery: null,
   nextQuery: null,
   prevQuery: null,
 }
 // AJAX
-function fetchPlaylists(searchTerm, callback) {
+function fetchPlaylists(searchTerm, callback, pageURL) {
   const BASE_API = 'https://api.spotify.com/v1/search';
+  const PREV_NEXT = pageURL; // pull in full query URL for AJAX call
 
   const params = {
     q: searchTerm,
@@ -62,37 +63,63 @@ function fetchPlaylists(searchTerm, callback) {
     limit: 5,
   };
 
-  $.ajax({
+  // this works
+  // $.ajax({
+  //   method: 'GET',
+  //   url: BASE_API,
+  //   data: params,
+  //   success: response => {
+  //     loadData(editData(response));
+  //   },
+  // });
+
+  //load playlists on initial click
+  let initLoad = $.ajax({
     method: 'GET',
     url: BASE_API,
     data: params,
     success: response => {
-      let obj = response['playlists'];
-      let playData = function(obj) {
-        const items = obj['items'].map(item => {
-          const {spotify} = item['external_urls'];
-          const {height, url, width} = item['images'][0];
-          const name = item['name'];
-          const owner = item['owner'];
-          return {
-            spotify, height, url, width, name
-          };
-        });
-        const nextQ = obj['next'];
-        const previousQ = obj['previous'];
-        return {
-          items, nextQ, previousQ
-        };
-      };
-      callback(playData(obj));
-    }
+      loadData(editData(response));
+    },
   });
+  //load playlists on prev or next button click
+  let btnLoad = $.ajax({
+    method: 'GET',
+    url: PREV_NEXT,
+    //processData: false, //deactivate need to process params for query string
+    success: response => {
+      loadData(editData(response));
+    },
+  });
+  //initLoad;
+  (searchTerm) ? initLoad : btnLoad;
 };
+
+
+//CALLBACK FUNCTIONS
+function editData(response) {
+let obj = response['playlists'];
+const items = obj['items'].map(item => {
+  const {spotify} = item['external_urls'];
+  const {height, url, width} = item['images'][0];
+  const name = item['name'];
+  const owner = item['owner'];
+  return {
+    spotify, url, name
+  };
+});
+const nextQ = obj['next'];
+const previousQ = obj['previous'];
+return {
+  items, nextQ, previousQ
+  };
+};
+
 function loadData(data) {
   appState.playlist = data.items;
   appState.nextQuery = data.nextQ;
   appState.prevQuery = data.previousQ;
-  render(appState);
+  render(appState); //Cheating way to hook a render into each data reload.
 };
 
 //STATE MODS
@@ -116,8 +143,8 @@ function render(state){
     resultPlaylists += '<p>No results</p>';
   };
 
-  // (state.nextQuery) ? $('.js-next').show() : $('.js-next').hide();
-  // (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
+  (true) ? $('.js-next').show() : $('.js-next').hide();
+  (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
   $('.show-playlists').html(resultPlaylists);
 };
 
@@ -129,10 +156,10 @@ function eventHandlers(){
       fetchPlaylists(appState.currentQuery, loadData);
     });
     $('.js-prev').click(function(event) {
-
+      fetchPlaylists(null, loadData, appState.prevQuery);
     })
     $('.js-next').click(function(event) {
-
+      fetchPlaylists(null, loadData, appState.nextQuery);
     })
 };
 //RUN THIS ENTIRE CUTE THING

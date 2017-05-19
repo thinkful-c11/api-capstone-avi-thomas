@@ -97,14 +97,14 @@ const data = {
   }
 }
 const obj = data['playlists'];
-let playData = function(obj) {
+playData = function(obj) {
   const items = obj['items'].map(item => {
     const {spotify} = item['external_urls'];
     const {height, url, width} = item['images'][0];
     const name = item['name'];
     const owner = item['owner'];
     return {
-      spotify, height, url, width, name
+      spotify, url, name
     };
   });
   const nextQ = obj['next'];
