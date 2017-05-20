@@ -1,21 +1,22 @@
+'use strict';
+//Added use strict
 const appState = {
   emojis:
-    {
-      happy: 'upbeat music',
-      party: 'party music',
-      fire: 'it\'s lit',
-      relax: 'chill',
-      sad: 'sad'
-    },
+  {
+    happy: 'upbeat music',
+    party: 'party music',
+    fire: 'it\'s lit',
+    relax: 'chill',
+    sad: 'sad'
+  },
   playlist: [],
   currentQuery: null,
   nextQuery: null,
   prevQuery: null,
-}
+};
 
 // IN WHICH WE MAKE AJAX REQUESTS
 function fetchPlaylists(searchTerm, callback, pageURL) {
-  console.log('fetch??');
   const BASE_API = 'https://api.spotify.com/v1/search';
   const PREV_NEXT = pageURL; // pull in full query URL for AJAX call
 
@@ -32,7 +33,6 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
       url: BASE_API,
       data: params,
       success: response => {
-        console.log(response);
         callback(editData(response));
       },
     });
@@ -40,41 +40,39 @@ function fetchPlaylists(searchTerm, callback, pageURL) {
   //in which we load playlists on prev or next button click
   function btnLoad() {
     $.ajax({
-    method: 'GET',
-    url: PREV_NEXT,
-    success: response => {
-      console.log('next or prev clicked??');
-      callback(editData(response));
-    },
-  });
-}
+      method: 'GET',
+      url: PREV_NEXT,
+      success: response => {
+        callback(editData(response));
+      },
+    });
+  }
   //Conditional for which AJAX call to make and render.;
   (searchTerm) ? initLoad() : btnLoad();
 
-};
+}
 
 //IN WHICH WE MODIFY THE STATE
 
 //in which we edit the data to our liking
 function editData(response) {
-let obj = response['playlists'];
-console.log(obj);
-const items = obj['items'].map(item => {
-  const {spotify} = item['external_urls'];
-  const {height, url, width} = item['images'][0];
-  const name = item['name'].substring(0, 18); //Only keep 18 char for stlying
-  const ownerId = item['owner']['id'];
-  const id = item['id'];
+  let obj = response['playlists'];
+  const items = obj['items'].map(item => {
+    const {spotify} = item['external_urls'];
+    const {url} = item['images'][0]; //Removed heighth and width variables as they are unused.
+    const name = item['name'].substring(0, 18); //Only keep 18 char for stlying
+    const ownerId = item['owner']['id'];
+    const id = item['id'];
+    return {
+      spotify, url, name, id, ownerId
+    };
+  });
+  const nextQ = obj['next'];
+  const previousQ = obj['previous'];
   return {
-    spotify, url, name, id, ownerId
+    items, nextQ, previousQ
   };
-});
-const nextQ = obj['next'];
-const previousQ = obj['previous'];
-return {
-  items, nextQ, previousQ
-  };
-};
+}
 
 //in which we load the data into the state object
 function loadData(data) {
@@ -82,16 +80,16 @@ function loadData(data) {
   appState.nextQuery = data.nextQ;
   appState.prevQuery = data.previousQ;
   render(appState); //Cheating way to hook a render into each data reload.
-};
+}
 
 //in which we set the current query in the state
 function clickEmoji(state, emoji){
   for (let prop in state.emojis) {
     if (prop === emoji) {
       state.currentQuery = state.emojis[prop];
-    };
-  };
-};
+    }
+  }
+}
 
 //IN WHICH WE RENDER
 function render(state){
@@ -106,32 +104,34 @@ function render(state){
   }
   else{
     resultPlaylists += '<p>No results</p>';
-  };
+  }
 
   (state.nextQuery) ? $('.js-next').show() : $('.js-next').hide();
   (state.prevQuery) ? $('.js-prev').show() : $('.js-prev').hide();
   $('.show-playlists').html(resultPlaylists);
-};
+}
 
 //IN WHICH WE HANDLE THE EVENTS
 function eventHandlers(){
-    $('.emoji').on('click', function(event){
-      let emojiType = $(event.currentTarget).data('emojitype');
-      clickEmoji(appState, emojiType);
-      fetchPlaylists(appState.currentQuery, loadData, null);
-      return false;
-    });
-    $('.js-nav-buttons').on('click', '.js-prev', function(event) {
-      fetchPlaylists(null, loadData, appState.prevQuery);
-      return false;
-    })
-    $('.js-nav-buttons').on('click', '.js-next', function(event) {
-      fetchPlaylists(null, loadData, appState.nextQuery);
-      return false;
-    })
-};
+  $('.emoji').on('click', function(event){
+    let emojiType = $(event.currentTarget).data('emojitype');
+    clickEmoji(appState, emojiType);
+    fetchPlaylists(appState.currentQuery, loadData, null);
+    return false;
+  });
+
+  //Removed event as an argument as it was not ref'd in the function scope.
+  $('.js-nav-buttons').on('click', '.js-prev', function() {
+    fetchPlaylists(null, loadData, appState.prevQuery);
+    return false;
+  });
+  $('.js-nav-buttons').on('click', '.js-next', function() {
+    fetchPlaylists(null, loadData, appState.nextQuery);
+    return false;
+  });
+}
 //IN WHICH WE RUN THIS ENTIRE CUTE THING
 $(function(){
-    eventHandlers();
-    render(appState, '');
+  eventHandlers();
+  render(appState, '');
 });
