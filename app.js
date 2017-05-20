@@ -59,7 +59,7 @@ function editData(response) {
   let obj = response['playlists'];
   const items = obj['items'].map(item => {
     const {spotify} = item['external_urls'];
-    const {url} = item['images'][0]; //Removed heighth and width variables as they are unused.
+    const {url} = item['images'][0];
     const name = item['name'].substring(0, 18); //Only keep 18 char for stlying
     const ownerId = item['owner']['id'];
     const id = item['id'];
@@ -120,7 +120,6 @@ function eventHandlers(){
     return false;
   });
 
-  //Removed event as an argument as it was not ref'd in the function scope.
   $('.js-nav-buttons').on('click', '.js-prev', function() {
     fetchPlaylists(null, loadData, appState.prevQuery);
     return false;
