@@ -1,3 +1,7 @@
+//everything looks pretty solid. Maybe next time remove the console logs used for testing prior to pushing.
+//liked the use of return false on the event listeners.
+//Love the app idea!
+
 const appState = {
   emojis:
     {
